@@ -114,9 +114,9 @@ Design and build a RESTful API for a simple appointment booking system. The plat
    * Design choices and assumptions
    * Step-by-step setup instructions (installing dependencies, database setup, starting server)
 3. API documentation:
-
    * Swagger / Postman / Markdown
 4. Docker setup
+5. Makefile for common tasks
 
 ---
 

@@ -41,18 +41,35 @@ docs/                       → API documentation
 
 ### Option 1: Docker (Recommended)
 
+### 🛠️ Using Makefile (Recommended)
+
+The easiest way to manage the project is using the provided `Makefile`.
+
 ```bash
-# Clone the repo
-git clone https://github.com/MirMonajir244/BookMySlot.git
-cd BookMySlot
+# Start everything (Docker + App)
+make docker-up
 
-# Start everything
-docker compose up --build
+# Rebuild and start
+make docker-rebuild
 
-# API available at http://localhost:8080
+# Run tests
+make test
+
+# View logs
+make docker-logs
+
+# Stop everything
+make docker-down
 ```
 
-### Option 2: Local Setup
+### Option 2: Docker Compose (Direct)
+
+```bash
+# Start everything
+docker compose up --build
+```
+
+### Option 3: Local Setup (Manual)
 
 ```bash
 # 1. Clone and enter the project
@@ -85,10 +102,10 @@ go run cmd/server/main.go
 
 📄 See [full API documentation](docs/api.md) for request/response examples.
 
-## 🧪 Running Tests
+### 🧪 Running Tests
 
 ```bash
-go test ./tests/... -v
+make test
 ```
 
 ## 🧠 Design Decisions
@@ -109,7 +126,7 @@ go test ./tests/... -v
 ## 📝 Assumptions
 
 - Coach availability is recurring weekly (same schedule every week)
-- All times are in UTC
+- All times are in UTCq
 - A session is exactly 30 minutes
 - Users and coaches register with separate roles
 - Each coach can only set their own availability
