@@ -47,7 +47,7 @@ git clone https://github.com/MirMonajir244/BookMySlot.git
 cd BookMySlot
 
 # Start everything
-docker-compose up --build
+docker compose up --build
 
 # API available at http://localhost:8080
 ```
