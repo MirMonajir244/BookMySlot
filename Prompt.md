@@ -1,58 +1,36 @@
 ### 🧠 Objective
 
-Design and implement a scalable, production-ready RESTful API for an appointment booking system where users can book 30-minute sessions with coaches. The system should ensure correctness, prevent double booking, and be designed with clean architecture and extensibility in mind.
+Design and build a RESTful API for a simple appointment booking system. The platform connects coaches with users who want to book 30-minute appointment slots. This task will assess ability to design a system, model data, build APIs, and handle core business logic.
 
 ---
 
-### 🏗️ System Design Expectations
+### 📋 Core Requirements
 
-Please approach this problem with a **backend engineer mindset**, covering:
+#### Functional Requirements
 
-1. **Data Modeling**
-
-   * Design relational database schema (PostgreSQL preferred)
-   * Entities should include (but not limited to):
-
-     * Users
-     * Coaches
-     * Availability (recurring weekly schedule)
-     * Bookings
-   * Clearly define relationships, constraints, and indexes
-
-2. **Core Logic**
-
-   * Generate 30-minute slots dynamically from coach availability
-   * Exclude already booked slots
-   * Ensure no double booking using strong consistency guarantees
-
-3. **Concurrency Handling**
-
-   * Prevent race conditions when multiple users try to book the same slot
-   * Use techniques such as:
-
-     * DB transactions
-     * Row-level locking (`SELECT ... FOR UPDATE`)
-     * Unique constraints (coach_id + datetime)
+1. **Coach Availability**: A coach must be able to define their available hours for any day of the week. For example, Coach A is available on Mondays from 10:00 AM to 3:00 PM and Wednesdays from 9:00 AM to 12:00 PM.
+2. **View Available Slots**: A user should be able to query the system to see all available 30-minute booking slots for a specific coach on a given day.
+3. **Book an Appointment**: A user must be able to book one of the available 30-minute slots with a coach.
+4. **No Double Booking**: Once a slot is booked, it must no longer appear as available. The system should prevent the same slot from being booked by two different users.
+5. **View Booked Appointments**: A user should be able to see a list of all the appointments they have booked.
 
 ---
 
-### 🔌 API Design (RESTful & Clean)
-
-Implement the following endpoints with proper validation and error handling:
+### 🔌 API Endpoints
 
 #### 1. Set Coach Availability
 
 `POST /coaches/availability`
 
-* Define weekly recurring availability
-* Input:
+* Action: Allows a coach to set their weekly availability.
+* Request Body:
 
 ```json
 {
   "coach_id": 1,
-  "day_of_week": "Monday",
-  "start_time": "10:00",
-  "end_time": "15:00"
+  "day_of_week": "Tuesday",
+  "start_time": "09:00",
+  "end_time": "14:00"
 }
 ```
 
@@ -62,11 +40,8 @@ Implement the following endpoints with proper validation and error handling:
 
 `GET /users/slots?coach_id=1&date=2025-10-28`
 
-* Return all **available 30-minute slots**
-* Must:
-
-  * Map weekday → availability
-  * Subtract already booked slots
+* Action: Fetches all available 30-minute slots for a given coach on a specific day.
+* Return: Array of available time slots
 
 ---
 
@@ -94,25 +69,23 @@ Implement the following endpoints with proper validation and error handling:
 
 `GET /users/bookings?user_id=101`
 
-* Return all upcoming bookings
+* Return all upcoming bookings with details about the coach and time.
 
 ---
 
-### ⭐ Bonus (Strong Signal for Interview)
+### ⭐ Bonus Features
 
-* Implement booking cancellation
-* Add timezone handling (store everything in UTC)
-* Add pagination for APIs
-* Add basic authentication (JWT or mock)
-* Write unit tests for:
-
-  * Slot generation
-  * Booking logic
-* Add idempotency for booking API
+* **Cancellation**: Add an endpoint for a user to cancel a booking.
+* **Timezones**: Handle timezones gracefully. Assume the coach and user might be in different timezones. Store everything in UTC.
+* **Concurrency**: Handle two users trying to book the exact same slot at the exact same time. Implement using database transactions with row-level locking (`SELECT ... FOR UPDATE`) and unique constraints.
+* **Testing**: Write unit or integration tests for API endpoints and business logic.
+* **Pagination**: Add pagination for list APIs.
+* **Authentication**: Add basic authentication (JWT or mock).
+* **Idempotency**: Add idempotency for booking API.
 
 ---
 
-### 🧩 Architecture Expectations
+### 🏗️ Architecture Expectations
 
 * Use clean architecture / layered design:
 
@@ -120,15 +93,16 @@ Implement the following endpoints with proper validation and error handling:
 * Keep business logic separate from handlers
 * Use DTOs and validation layer
 * Add meaningful error responses
+* Code should be well-structured, clean, and maintainable
 
 ---
 
-### ⚙️ Tech Stack (Preferred)
+### ⚙️ Tech Stack
 
-* Language: Golang (preferred) / Node.js / Python
-* Framework: Gin (Go) / Express / FastAPI
+* Language: Golang
+* Framework: Gin
 * Database: PostgreSQL
-* ORM: Optional (GORM / Prisma / SQLAlchemy)
+* ORM: GORM
 
 ---
 
@@ -137,23 +111,22 @@ Implement the following endpoints with proper validation and error handling:
 1. GitHub repository with clean commit history
 2. README including:
 
-   * Setup steps
-   * Design decisions
-   * Assumptions
+   * Design choices and assumptions
+   * Step-by-step setup instructions (installing dependencies, database setup, starting server)
 3. API documentation:
 
    * Swagger / Postman / Markdown
-4. (Optional) Docker setup
+4. Docker setup
 
 ---
 
-### 🧠 Evaluation Focus
+### 🧠 Evaluation Criteria
 
-* Correctness of booking logic
-* Data modeling decisions
-* Concurrency handling
-* Code quality and structure
-* API design clarity
+* **Correctness**: Does the application meet all core functional requirements?
+* **Problem Solving**: How was data modeled? How are available slots generated based on coach's schedule and existing bookings?
+* **Code Quality**: Is the code clean, well-organized, and easy to understand?
+* **API Design**: Are the APIs well-designed, RESTful, and consistent? Is input validation and error handling implemented correctly?
+* **Documentation**: Is the project easy to understand, set up, and use?
 
 ---
 
@@ -162,6 +135,12 @@ Implement the following endpoints with proper validation and error handling:
 * Prioritize correctness over premature optimization
 * Avoid hardcoding slots — generate dynamically
 * Ensure system is extendable (e.g., different slot durations in future)
+
+---
+
+### 🤖 AI Usage Disclosure
+
+AI tools were used during development. The complete conversation log is available upon request.
 
 ---
 

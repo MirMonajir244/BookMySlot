@@ -126,6 +126,15 @@ go test ./tests/... -v
 | Auth | JWT (golang-jwt/jwt) |
 | Containerization | Docker + Docker Compose |
 
-## 📄 License
+## 🤖 AI Usage Disclosure
 
-MIT
+AI tools were used to assist in the development of this project. Key areas of AI assistance:
+- Initial project scaffolding and boilerplate code
+- Code structure following clean architecture patterns
+- Unit test creation
+
+All code has been reviewed, understood, and can be fully explained by the developer.
+
+## 📄 Author
+
+Mir Monajir
