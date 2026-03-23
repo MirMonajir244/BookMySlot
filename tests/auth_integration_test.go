@@ -8,6 +8,23 @@ import (
 	"testing"
 )
 
+func TestHealthCheck(t *testing.T) {
+	r, _, _ := SetupTestRouter()
+	req, _ := http.NewRequest("GET", "/health", nil)
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("expected 200, got %d", w.Code)
+	}
+
+	var response map[string]string
+	json.Unmarshal(w.Body.Bytes(), &response)
+	if response["status"] != "ok" {
+		t.Errorf("expected status 'ok', got '%s'", response["status"])
+	}
+}
+
 func TestAuthFlow_Integration(t *testing.T) {
 	r, _, _ := SetupTestRouter()
 
