@@ -6,18 +6,29 @@ import (
 
 	"github.com/MirMonajir244/BookMySlot/internal/config"
 	"github.com/MirMonajir244/BookMySlot/internal/models"
-	"github.com/MirMonajir244/BookMySlot/internal/repository"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
+type UserRepo interface {
+	Create(user *models.User) error
+	FindByEmail(email string) (*models.User, error)
+	FindByID(id uint) (*models.User, error)
+}
+
+type CoachRepo interface {
+	Create(coach *models.Coach) error
+	FindByEmail(email string) (*models.Coach, error)
+	FindByID(id uint) (*models.Coach, error)
+}
+
 type AuthService struct {
-	userRepo  *repository.UserRepository
-	coachRepo *repository.CoachRepository
+	userRepo  UserRepo
+	coachRepo CoachRepo
 	cfg       *config.Config
 }
 
-func NewAuthService(userRepo *repository.UserRepository, coachRepo *repository.CoachRepository, cfg *config.Config) *AuthService {
+func NewAuthService(userRepo UserRepo, coachRepo CoachRepo, cfg *config.Config) *AuthService {
 	return &AuthService{
 		userRepo:  userRepo,
 		coachRepo: coachRepo,
